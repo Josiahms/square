@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public interface IRespawnable {
@@ -6,7 +7,6 @@ public interface IRespawnable {
 }
 
 public class Respawnable : MonoBehaviour {
-
    [SerializeField]
    private Transform spawnpoint;
    private Vector3 spawnPosition;
@@ -21,7 +21,8 @@ public class Respawnable : MonoBehaviour {
 
    public void Respawn() {
       transform.position = spawnPosition;
-      GetComponents<IRespawnable>().ToList().ForEach(x => x.OnRespawn());
+      GetComponentsInChildren<IRespawnable>().ToList().ForEach(x => x.OnRespawn());
+      MainCanvas.GetInstance().GetComponentsInChildren<IRespawnable>().ToList().ForEach(x => x.OnRespawn());
    }
 
 }

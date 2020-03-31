@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Charges : MonoBehaviour, IRespawnable {
+public class Charges : Singleton<Charges>, IRespawnable {
 
    [SerializeField]
    private int maxCharges = 3;
@@ -15,7 +15,7 @@ public class Charges : MonoBehaviour, IRespawnable {
    private float resetTime;
    private int numCharges;
 
-   private void Awake() {
+   private void Start() {
       Initalize();
    }
 
@@ -33,7 +33,7 @@ public class Charges : MonoBehaviour, IRespawnable {
          return;
       }
 
-      if (GetComponent<PlayerStateManager>().CurrentState == PlayerState.Idle || GetComponent<PlayerStateManager>().CurrentState == PlayerState.Grabbing || GetComponent<PlayerStateManager>().CurrentState == PlayerState.Sliding) {
+      if (new List<PlayerState> { PlayerState.Idle, PlayerState.Grabbing, PlayerState.Sliding }.Contains(PlayerStateManager.GetInstance().CurrentState)) {
          resetTime += Time.deltaTime;
          if (resetTime > fireRechargeDelay) {
             resetTime = 0;

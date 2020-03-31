@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - 2D Environment
   layers:
   - Default
   - TransparentFX
@@ -14,17 +15,17 @@ TagManager:
   - 
   - 
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Canvas
+  - Background
+  - Base
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - Effect
   - 
   - 
   - 
@@ -40,4 +41,34 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3778380135
+    locked: 0
+  - name: Middleground
+    uniqueID: 424527567
+    locked: 0
+  - name: Foreground
+    uniqueID: 3882994477
+    locked: 0
+  - name: UI
+    uniqueID: 1606683433
+    locked: 0
+  - name: 0
+    uniqueID: 2914233253
+    locked: 0
+  - name: 1
+    uniqueID: 1133200947
+    locked: 0
+  - name: 2
+    uniqueID: 689612171
+    locked: 0
+  - name: 3
+    uniqueID: 323651463
+    locked: 0
+  - name: 4
+    uniqueID: 1429637083
+    locked: 0
+  - name: 5
+    uniqueID: 1262973725
     locked: 0

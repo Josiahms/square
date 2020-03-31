@@ -13,7 +13,7 @@ public enum PlayerState {
    Sliding
 }
 
-public class PlayerStateManager : MonoBehaviour {
+public class PlayerStateManager : Singleton<PlayerStateManager> {
 
    [SerializeField]
    public PlayerState PrevState;// { get; private set; }

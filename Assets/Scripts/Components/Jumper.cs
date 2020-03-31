@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Charges))]
+[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(TimeDialator))]
 public class Jumper : Singleton<Jumper>, IRespawnable {
 
    [SerializeField]
@@ -20,16 +24,16 @@ public class Jumper : Singleton<Jumper>, IRespawnable {
 
    private const float DOWN_ATTACK_THRESHOLD = -0.95f;
    private const float NORMAL_DRAG = 0.5f;
-   private const float SLIDING_DRAG = 0.05f;
+   private const float SLIDING_DRAG = 0.03f;
 
-   private void Awake() {
+   private void Start() {
       lr = GetComponent<LineRenderer>();
       lr.positionCount = 2;
       lr.SetPosition(0, Vector3.zero);
       rb = GetComponent<Rigidbody2D>();
       audioSource = GetComponent<AudioSource>();
       timeDialator = GetComponent<TimeDialator>();
-      charges = GetComponent<Charges>();
+      charges = Charges.GetInstance();
       Initialize();
 
       GetComponent<PlayerStateManager>().Subscribe(PlayerState.Any, PlayerState.Sliding, () => rb.drag = SLIDING_DRAG);
@@ -41,7 +45,7 @@ public class Jumper : Singleton<Jumper>, IRespawnable {
    }
 
    private bool IsInputting() {
-      return Input.GetMouseButton(0) || Input.touchCount > 0;
+      return (Input.GetMouseButton(0) || Input.touchCount > 0) && (!EventSystem.current.IsPointerOverGameObject() || lr.enabled);
    }
 
    private Vector2 GetInputPosition() {
@@ -78,8 +82,8 @@ public class Jumper : Singleton<Jumper>, IRespawnable {
       // Jumper Specific
       rb.velocity = new Vector2(0, 0);
       Vector2 nextForce = Vector2.ClampMagnitude((lr.GetPosition(0) - lr.GetPosition(1)) * forceScale, maxForce);
-      if (nextForce.normalized.y < DOWN_ATTACK_THRESHOLD) {
-         nextForce = Vector2.down * maxForce * 2;
+      if (nextForce.normalized.y < 0) {
+         nextForce *= 1.5f;
       }
 
       rb.AddRelativeForce(nextForce);
@@ -88,6 +92,10 @@ public class Jumper : Singleton<Jumper>, IRespawnable {
       if (timeDialator != null) {
          timeDialator.Release();
       }
+      if (GetComponent<PlayerStateManager>().CurrentState == PlayerState.Diving) {
+         GetComponent<PlayerStateManager>().SetState(PlayerState.Flying);
+      }
+
       audioSource.PlayOneShot(audioSource.clip);
    }
 

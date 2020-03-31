@@ -5,7 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TowerScene.unity
     guid: f66d433e256162f4da1aa3e8d52ca618
+  - enabled: 0
+    path: Assets/Scenes/Ferr2D.unity
+    guid: dbe755c0af72cdb4eb6eb5f160adeb1b
+  - enabled: 0
+    path: Assets/Scenes/City.unity
+    guid: b8acee79277fb9a448aa4977bc4d887e
+  - enabled: 1
+    path: Assets/Scenes/Docks.unity
+    guid: 5fc4119512f2d6249b65af1408d0111e
   m_configObjects: {}

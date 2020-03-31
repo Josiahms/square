@@ -13,8 +13,8 @@ public class WallGrabber : MonoBehaviour {
    private BoxCollider2D boxCollider2D;
 
    private const float FLAT_NORMAL_THRESHOLD = 0.9f;
-   private const float DIVE_VELOCITY_THRESHOLD = -40f;
-   private const float DOWN_SLIDE_THRESHOLD = 10f;
+   private const float DIVE_VELOCITY_THRESHOLD = -20f;
+   private const float DOWN_SLIDE_THRESHOLD = 7f;
    private const float DOWN_SLIDE_STOP_THRESHOLD = 6f;
    private const float NORMAL_GRAVITY = 2.6f;
    private const float GRABBING_GRAVITY = 0.5f;
@@ -45,6 +45,9 @@ public class WallGrabber : MonoBehaviour {
 
    private int numColliders = 0;
    private void OnCollisionEnter2D(Collision2D collision) {
+      if (collision.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast")) {
+         return;
+      }
 
       numColliders++;
 
@@ -59,6 +62,9 @@ public class WallGrabber : MonoBehaviour {
    }
 
    private void OnCollisionExit2D(Collision2D collision) {
+      if (collision.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast")) {
+         return;
+      }
 
       numColliders--;
 
@@ -68,6 +74,15 @@ public class WallGrabber : MonoBehaviour {
          }
          GetComponent<PlayerStateManager>().SetState(PlayerState.Flying);
       }
+   }
+
+   private void FixedUpdate() {
+      /*if (IsGrabbing()) {
+         rb.AddForce(new Vector2(grabbingDirection * 200, 0));
+         rb.sharedMaterial.friction = 0;
+      }  else {
+         rb.sharedMaterial.friction = 0.4f;
+      }*/
    }
 
    public int GrabbingDirection() {
